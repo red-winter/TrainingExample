@@ -1,0 +1,85 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+typedef std::vector<std::vector<int>> T_MATRIX;
+
+T_MATRIX matrix = {
+  {2,4,6,8,10},             // 0
+  {12,14,16,18,20},             // 1
+  {22,24,26,28,30},             // 2
+  {32,34,36,38,40},             // 3
+  {42,44,46,48,50},             // 4
+};
+
+bool bCheck(T_MATRIX& matrix,int target)
+{
+  bool bFind = false;
+  size_t m = 0;
+  size_t l = 0;
+  size_t r = matrix.size();
+
+  while(l+1 < r)
+  {
+    m = (l+r)/2;
+
+    if(*(matrix[m].end()-1) == target)
+    {
+     l = m;
+     r = m;
+     break;
+    }
+    else if(*(matrix[m].end()-1) < target)
+    {
+      l = m;
+    }
+    else
+    {
+      r = m;
+    }
+
+  }
+
+ if((*(matrix[l].end()-1) < target))
+ {
+   m = r;
+ }
+ else
+ {
+   m = l;
+ }
+
+ if(m != matrix.size())
+ {
+   std::vector<int>&vecData = matrix[(*(matrix[l].end()-1) < target) ? r:l];
+
+   bFind = std::binary_search(vecData.begin(),vecData.end(),target);
+ }
+ else
+ {
+   // NOTHIGN TO DO
+ }
+
+  return bFind;
+}
+
+
+
+int main(int argc, char *argv[])
+{
+  int target = 0;
+
+  while(1)
+  {
+    std::cin >> target;
+
+    std::cout << "Check: " << bCheck(matrix,target) << endl;
+
+  }
+
+
+  return 0;
+}
+//----------------------------------------------------------------------------------------
